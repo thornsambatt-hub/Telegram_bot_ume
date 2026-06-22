@@ -30,10 +30,13 @@ def main():
 
         print(f"🚀 Starting Webhook Server on port {render_port}...")
 
+        # Clean the URL to ensure it doesn't end with a slash
+        clean_url = config.WEBHOOK_URL.rstrip('/')
+
         app.run_webhook(
             listen="0.0.0.0",
-            port=render_port,
-            webhook_url=f"{config.WEBHOOK_URL}/webhook"
+            url_path="webhook",
+            webhook_url=f"{clean_url}/webhook"
         )
     else:
         print("🚀 Starting bot in polling mode because WEBHOOK_URL is not set...")
