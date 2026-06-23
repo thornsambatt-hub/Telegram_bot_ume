@@ -2,6 +2,7 @@
 import config
 import asyncio
 import os
+from aiohttp import web
 from telegram import BotCommand
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, Application
 from bot.handlers.start import start
@@ -41,6 +42,29 @@ async def amain():
             url_path="webhook",
             webhook_url=f"{clean_url}/webhook"
         )
+
+        # Add a small homepage route so cron / health probes receive 200 OK
+        try:
+            web_app = getattr(app.updater, "web_app", None)
+            if web_app is not None:
+                async def homepage_handler(request):
+                    return web.Response(text="🟢 UME Kratie Portal Bot Server is Live and Active!")
+
+                web_app.router.add_get("/", homepage_handler)
+            else:
+                # Fallback for older/internal servers that expose an http_server
+                http_server = getattr(app.updater, "http_server", None)
+                if http_server is not None:
+                    async def tornado_homepage(request):
+                        from tornado.web import RequestHandler
+                        if isinstance(request, RequestHandler):
+                            request.write("🟢 UME Kratie Portal Bot Server is Live and Active!")
+                            request.finish()
+
+                    http_server.add_handlers(r".*", [(r"/", tornado_homepage)])
+        except Exception as e:
+            print("Warning: could not add homepage handler:", e)
+
         await app.start()
 
         # Keep the web service running continuously in the background
