@@ -11,9 +11,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # 6 explicit vertical buttons mapping to the image layout
     keyboard = [
         [InlineKeyboardButton("💡អំពីសាកលវិទ្យាល័យ", callback_data="about_uni")],
-        [InlineKeyboardButton("🎓🧑‍🎓 ព័ត៌មានសិក្សា 🎓🧑‍🎓", callback_data="academic_info")],
+        [InlineKeyboardButton("🎓🧑‍🎓 ព័ត៌មានសិក្សា 🧑‍🎓🎓", callback_data="academic_info")],
         [InlineKeyboardButton("🎓✍️ ការចុះឈ្មោះចូលរៀន ✍️🎓", callback_data="registration")],
-        [InlineKeyboardButton("✍️💧 បង់ថ្លៃសិក្សា 💧✍️", callback_data="tuition_payment")],
+        [InlineKeyboardButton("✍️💧 បង់ថ្លៃសិក្សា ✍️🚰", callback_data="tuition_payment")],
         [InlineKeyboardButton("📞 ទំនាក់ទំនង", callback_data="contact_us")],
         [InlineKeyboardButton("📍 ទីតាំងសាកលវិទ្យាល័យ", callback_data="location")]
     ]
